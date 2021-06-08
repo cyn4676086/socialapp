@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: :emoji_library:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7288a7948c817da2b3a5ef65f3d84555/jetified-emoji_library/jars/libs/universal-image-loader-1.9.5.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7288a7948c817da2b3a5ef65f3d84555/jetified-emoji_library/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7288a7948c817da2b3a5ef65f3d84555/jetified-emoji_library/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7288a7948c817da2b3a5ef65f3d84555/jetified-emoji_library/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

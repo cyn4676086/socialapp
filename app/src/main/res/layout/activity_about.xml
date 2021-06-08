@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray5"
+              android:orientation="vertical">
+
+    <include layout="@layout/include_toolbar"/>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@mipmap/ic_launcher"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="SmileChat"
+                android:textColor="@color/gray2"
+                android:textSize="18sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <View
+            style="@style/Line1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            />
+
+        <com.lqr.optionitemview.OptionItemView
+            style="@style/OptionItem"
+            android:background="@drawable/selector_option_item"
+            app:left_text="功能介绍"
+            app:left_text_color="@color/black0"
+            app:left_text_margin_left="15dp"
+            app:left_text_size="16sp"/>
+
+        <View
+            style="@style/Line1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            />
+
+
+
+        <com.lqr.optionitemview.OptionItemView
+            style="@style/OptionItem"
+            android:background="@drawable/selector_option_item"
+            app:left_text="帮助与反馈"
+            app:left_text_color="@color/black0"
+            app:left_text_margin_left="15dp"
+            app:left_text_size="16sp"/>
+
+        <View
+            style="@style/Line1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            />
+
+        <View
+            style="@style/Line1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            />
+
+        <com.lqr.optionitemview.OptionItemView
+            android:id="@+id/optionItemView2"
+            style="@style/OptionItem"
+            android:background="@drawable/selector_option_item"
+            app:left_text="版本更新"
+            app:left_text_color="@color/black0"
+            app:left_text_margin_left="15dp"
+            app:left_text_size="16sp"
+            app:right_text="2.0.0"
+            app:right_text_color="@color/gray2"
+            app:right_text_margin_right="20dp"
+            app:right_text_size="14sp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="使用条款和隐私政策"
+        android:textColor="@color/blue0"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="CYN个人练手"
+        android:textColor="@color/gray2"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="兴趣使然"
+        android:textColor="@color/gray2"
+        android:textSize="12sp"/>
+
+
+</LinearLayout>

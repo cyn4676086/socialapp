@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.lqr.adapter:library:1.0.1@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f9e0a8618710880e0f63281bf57d41e3/jetified-library-1.0.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f9e0a8618710880e0f63281bf57d41e3/jetified-library-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f9e0a8618710880e0f63281bf57d41e3/jetified-library-1.0.1/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.lqr.adapter/library/1.0.1/fe2369dd3e0c9e7d5424029cef26e600d160e172/library-1.0.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.lqr.adapter/library/1.0.1/2f2d79e56aeabb3771769cdce3eade1918779e4f/library-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

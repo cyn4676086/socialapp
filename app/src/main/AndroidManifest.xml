@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    package="com.smile.wechat">
+    <!-- sd卡写入权限  -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEM"/>
+
+    <!-- 权限声明 -->
+    <!-- 访问网络状态-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+
+    <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- 外置存储存取权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- 多媒体相关 -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <!--定位相关-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+
+    <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+
+    <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+    <!-- 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
+    <permission
+        android:name="com.smile.wechat.permission.RECEIVE_MSG"
+        android:protectionLevel="signature"/>
+    <!-- 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+    <uses-permission android:name="com.smile.wechat.RECEIVE_MSG"/>
+
+
+    <application
+        android:name="com.smile.wechat.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup">
+
+        <!--异形屏适配-->
+        <!--OPPO-->
+        <meta-data android:name="androrid.max_aspect"
+            android:value="2.2"/>
+        <!--适配华为（huawei）刘海屏-->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true"/>
+        <!--适配小米（xiaomi）刘海屏-->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
+        <provider
+            android:name="cn.bmob.v3.util.BmobContentProvider"
+            android:authorities="com.smile.wechat.BmobContentProvider">
+        </provider>
+        <!--FileProvide-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.smile.wechat.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+
+        <!--###############################网易云信配置 begin###############################-->
+        <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
+            如果 SDKOptions 中提供了，取 SDKOptions 中的值。 -->
+        <meta-data
+            android:name="com.netease.nim.appKey"
+            android:value="21b53caca2461392608406627238afc7"/>
+        <!-- 声明云信后台服务，如需保持后台推送，使用独立进程效果会更好。 -->
+        <service
+            android:name="com.netease.nimlib.service.NimService"
+            android:process=":core"/>
+
+        <service
+            android:name="com.netease.nimlib.service.NimService$Aux"
+            android:process=":core"/>
+
+        <!-- 云信SDK的监视系统启动和网络变化的广播接收器，用户开机自启动以及网络变化时候重新登录，
+            保持和 NimService 同一进程 -->
+        <receiver
+            android:name="com.netease.nimlib.service.NimReceiver"
+            android:exported="false"
+            android:process=":core">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 云信进程间通信 Receiver -->
+        <receiver android:name="com.netease.nimlib.service.ResponseReceiver"/>
+
+
+
+        <meta-data
+            android:name="com.netease.cosine.target"
+            android:value=""/>
+        <meta-data
+            android:name="com.netease.cosine.target.receiver"
+            android:value="com.netease.nimlib.service.NimReceiver"/>
+
+        <!--###############################网易云信配置 end###############################-->
+        <activity android:name="com.smile.wechat.activity.IndexActivity"
+            android:theme="@style/AppThemeFull"
+            android:configChanges="orientation|screenSize"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.GuideActivity"
+            android:theme="@style/AppThemeFull"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name="com.smile.wechat.activity.SplashActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.LoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.RegisterActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.MeetingActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.smile.wechat.activity.SquareActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.OtherLoginActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!--会话聊天-->
+        <activity
+            android:name="com.smile.wechat.activity.SessionActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.RedPacketActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.TransferActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.LocationActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.FilePreviewActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.UserInfoActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.AliasActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.FriendCirclePrivacySetActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.PostscriptActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.ImageWatchActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.FileWallActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.NewFriendActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.AddFriendActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.SearchUserActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <!--设置-->
+        <activity
+            android:name="com.smile.wechat.activity.SettingActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.NewMsgNotifySetActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.DontDistorbSetActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.ChangePassActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.CheatSetActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.PrivacySetActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.CommonSetActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        
+
+        <activity
+            android:name="com.smile.wechat.activity.AccountAndSafeSetActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.AboutActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.MsgNotificationActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.VipCardActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.MyCouponActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.FriendsCouponActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!--个人信息-->
+        <activity
+            android:name="com.smile.wechat.activity.MyInfoActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.ShowBigImageActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.ChangeNameActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.ChangeSignatureActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.QRCodeCardActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.WebViewActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.ScanActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.NearbyPerpleActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <!--群组-->
+        <activity
+            android:name="com.smile.wechat.activity.TeamCheatCreateActvitiy"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.TeamCheatInfoActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.TeamNameSetActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.TeamCheatListActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.AllTagActvitiy"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.TeamAnnouncementEditActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.TeamCheatRemoveMemberActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.smile.wechat.activity.PushSquareActivity"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:screenOrientation="portrait">
+        </activity>
+    </application>
+</manifest>

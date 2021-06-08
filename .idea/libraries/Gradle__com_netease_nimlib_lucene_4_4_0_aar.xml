@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.netease.nimlib:lucene:4.4.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f4bc874acd2a9157e23696a7319b4a91/jetified-lucene-4.4.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f4bc874acd2a9157e23696a7319b4a91/jetified-lucene-4.4.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f4bc874acd2a9157e23696a7319b4a91/jetified-lucene-4.4.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netease.nimlib/lucene/4.4.0/96874bf1378885a488e9c6983238680f5695be2d/lucene-4.4.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netease.nimlib/lucene/4.4.0/a3750c7c5b47ffe6d539a982d287e4c64b27f055/lucene-4.4.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

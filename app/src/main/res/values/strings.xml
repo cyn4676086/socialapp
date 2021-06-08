@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SmileChat</string>
+
+    <string name="message">消息</string>
+    <string name="contacts">通讯录</string>
+    <string name="discovery">发现</string>
+    <string name="me">我</string>
+
+
+    <string name="text_push_ing">正在发布..</string>
+    <string name="text_push_ed_null">请输入内容</string>
+    <string name="text_push_fail">发布失败</string>
+    <string name="text_push_type_img">图片</string>
+    <string name="text_push_type_music">音乐</string>
+    <string name="text_push_type_video">视频</string>
+</resources>

@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="Gradle: com.otaliastudios:cameraview:2.1.0@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/696d8fb5b93c4c1d13441a96542015b0/jetified-cameraview-2.1.0/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/696d8fb5b93c4c1d13441a96542015b0/jetified-cameraview-2.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/696d8fb5b93c4c1d13441a96542015b0/jetified-cameraview-2.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/696d8fb5b93c4c1d13441a96542015b0/jetified-cameraview-2.1.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.otaliastudios/cameraview/2.1.0/e75219a1d043b5262a7249779adfbe878a90494d/cameraview-2.1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.otaliastudios/cameraview/2.1.0/971380f41875dda8bdda87e949b1be6a53371f35/cameraview-2.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

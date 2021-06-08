@@ -1,0 +1,2 @@
+include ':ImagePicker'
+include ':app'
