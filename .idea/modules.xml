@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SmileChat.iml" filepath="$PROJECT_DIR$/.idea/modules/SmileChat.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImagePicker/SmileChat.ImagePicker.iml" filepath="$PROJECT_DIR$/.idea/modules/ImagePicker/SmileChat.ImagePicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SmileChat.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SmileChat.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/location/SmileChat.location.iml" filepath="$PROJECT_DIR$/.idea/modules/location/SmileChat.location.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wheelviews/SmileChat.wheelviews.iml" filepath="$PROJECT_DIR$/.idea/modules/wheelviews/SmileChat.wheelviews.iml" />
     </modules>
   </component>
 </project>

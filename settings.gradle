@@ -1,2 +1,3 @@
+include ':wheelviews'
 include ':ImagePicker'
 include ':app'

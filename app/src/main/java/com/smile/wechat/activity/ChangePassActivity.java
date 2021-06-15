@@ -66,10 +66,8 @@ public class ChangePassActivity extends BaseActivity {
             return;
         }
         //验证当前账号密码
-        System.out.println(NimAccountSDK.getUserAccount()+" "+NimAccountSDK.getUserToken());
-        System.out.println(account+" "+pass);
-
-        if(NimAccountSDK.getUserAccount().equals(account)&&NimAccountSDK.getUserToken().equals(pass)){
+       
+        if(NimAccountSDK.getUserAccount().equals(account)&&NimAccountSDK.getUserToken().equals(nowPass)){
             //修改密码
             NimClientHandle.getInstance().updateToken(account,pass, new OnRegisterListener() {
                 @Override

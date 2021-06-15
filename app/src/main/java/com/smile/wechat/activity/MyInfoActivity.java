@@ -2,8 +2,11 @@ package com.smile.wechat.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +30,8 @@ import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.uinfo.constant.GenderEnum;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.smile.wheelviews.CityPickerView;
+import com.smile.wheelviews.TimePickerView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,6 +67,11 @@ public class MyInfoActivity extends BaseActivity {
         }
     };
 
+
+    @BindView(R.id.tv_account_birth)
+    TextView mTvBirthDay;
+    @BindView(R.id.tv_account_location)
+    TextView mTvLocation;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.llHeader)
@@ -79,9 +89,15 @@ public class MyInfoActivity extends BaseActivity {
     @BindView(R.id.oivSignature)
     OptionItemView mOivSignature;
 
-    @OnClick({R.id.llHeader, R.id.ivHeader, R.id.oivName, R.id.oivQRCordCard, R.id.oivGender, R.id.oivSignature})
+    @OnClick({R.id.tv_account_location,R.id.tv_account_birth,R.id.llHeader, R.id.ivHeader, R.id.oivName, R.id.oivQRCordCard, R.id.oivGender, R.id.oivSignature})
     public void click(View view) {
         switch (view.getId()) {
+            case R.id.tv_account_location:
+                setLocation();
+                break;
+            case R.id.tv_account_birth:
+                setBirthday();
+                break;
             case R.id.llHeader:
                 mIntent = new Intent(this, ImageGridActivity.class);
                 startActivityForResult(mIntent, SessionActivity.IMAGE_PICKER);
@@ -176,6 +192,20 @@ public class MyInfoActivity extends BaseActivity {
             mOivSignature.setRightText(TextUtils.isEmpty(mNimUserInfo.getSignature()) ? "未填写" : mNimUserInfo.getSignature());
             mOivGender.setRightText(mNimUserInfo.getGenderEnum() == GenderEnum.FEMALE ? "女" : mNimUserInfo.getGenderEnum() == GenderEnum.MALE ? "男" : "");
         }
+        String birthday = mNimUserInfo.getBirthday();
+        if (TextUtils.isEmpty(birthday)) {
+            mTvBirthDay.setText("未填写");
+        } else {
+            mTvBirthDay.setText(birthday);
+        }
+        String location = mNimUserInfo.getExtension();
+        if (TextUtils.isEmpty(location)) {
+            mTvLocation.setText("未填写");
+        } else {
+            mTvLocation.setText(location);
+        }
+
+
     }
 
     @Override
@@ -290,5 +320,85 @@ public class MyInfoActivity extends BaseActivity {
             mTvMale.setCompoundDrawables(null, null, mUnSelectedDrawable, null);
             mTvFemale.setCompoundDrawables(null, null, mUnSelectedDrawable, null);
         }
+    }
+
+    /**
+     * 设置生日
+     */
+    private void setBirthday() {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_select_birthday, null);
+        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
+        TimePickerView timePickerView = (TimePickerView) view.findViewById(R.id.date_picker);
+        timePickerView.setSelectedListener(new TimePickerView.OnDateSelectedListener() {
+            @Override
+            public void selectedDate(int year, int month, int day) {
+                String yearString = String.valueOf(year);
+                String monthString = String.valueOf(month);
+                String dayString = String.valueOf(day);
+                if (monthString.length() == 1){
+                    monthString = "0" + monthString;
+                }
+                if (dayString.length() == 1){
+                    dayString = "0" + dayString;
+                }
+                String birthday = String.format("%s-%s-%s", yearString, monthString, dayString);
+                if (!birthday.equals(mTvBirthDay.getText().toString())) {
+                    showWaitingDialog("请稍等");
+                    Map<UserInfoFieldEnum, Object> fields = new HashMap(1);
+                    fields.put(UserInfoFieldEnum.BIRTHDAY, birthday);
+                    NimUserInfoSDK.updateUserInfo(fields, new RequestCallbackWrapper<Void>() {
+                        @Override
+                        public void onResult(int code, Void result, Throwable exception) {
+                            hideWaitingDialog();
+                            if (code == ResponseCode.RES_SUCCESS) {
+                                UIUtils.showToast("修改成功");
+                                dialog.dismiss();
+                            } else {
+                                UIUtils.showToast("修改失败");
+                            }
+                        }
+                    });
+                    mTvBirthDay.setText(birthday);
+                }
+                dialog.dismiss();
+
+            }
+        });
+        dialog.show();
+    }
+
+    /**
+     * 设置学校
+     */
+    private void setLocation(){
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_select_location, null);
+        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
+        CityPickerView cityPickerView = (CityPickerView) view.findViewById(R.id.city_picker);
+        cityPickerView.setCitySelectedListener(new CityPickerView.OnCitySelectedListener() {
+            @Override
+            public void citySelected(String province, String city) {
+                String location = province + "/" + city;
+                if (!location.equals(mTvLocation.getText().toString())) {
+                    showWaitingDialog("请稍等");
+                    Map<UserInfoFieldEnum, Object> fields = new HashMap(1);
+                    fields.put(UserInfoFieldEnum.EXTEND, location);
+                    NimUserInfoSDK.updateUserInfo(fields, new RequestCallbackWrapper<Void>() {
+                        @Override
+                        public void onResult(int code, Void result, Throwable exception) {
+                            hideWaitingDialog();
+                            if (code == ResponseCode.RES_SUCCESS) {
+                                UIUtils.showToast("修改成功");
+                                dialog.dismiss();
+                            } else {
+                                UIUtils.showToast("修改失败");
+                            }
+                        }
+                    });
+                    mTvLocation.setText(location);
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

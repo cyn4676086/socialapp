@@ -73,6 +73,8 @@ public class UserInfoActivity extends BaseActivity {
     LinearLayout mLlArea;
     @BindView(R.id.tvArea)
     TextView mTvArea;
+    @BindView(R.id.tvBirthday)
+    TextView mTvBirthday;
     @BindView(R.id.llSignature)
     LinearLayout mLlSignature;
     @BindView(R.id.tvSignature)
@@ -93,7 +95,7 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.svMenu)
     ScrollView mSvMenu;
 
-    @OnClick({R.id.oivAliasAndTag, R.id.btnCheat, R.id.btnVideoCheat, R.id.btnAddFriend, R.id.oivAlias, R.id.oivFriendsCirclePrivacySet, R.id.oivAddToBlackList, R.id.oivDelete})
+    @OnClick({R.id.oivAliasAndTag, R.id.btnCheat, R.id.btnVideoCheat, R.id.btnAddFriend, R.id.oivAlias, R.id.oivFriendsCirclePrivacySet, R.id.oivAddToBlackList, R.id.oivRemoveBlackList,R.id.oivDelete})
     public void click(View view) {
         switch (view.getId()) {
             case R.id.oivAliasAndTag:
@@ -138,6 +140,39 @@ public class UserInfoActivity extends BaseActivity {
                             @Override
                             public void onFailed(int code) {
                                 UIUtils.showToast("加入黑名单失败" + code);
+                            }
+
+                            @Override
+                            public void onException(Throwable exception) {
+                                exception.printStackTrace();
+                            }
+                        });
+                        hideMaterialDialog();
+                    }
+                }, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        hideMaterialDialog();
+                    }
+                });
+                break;
+            case R.id.oivRemoveBlackList:
+                hideMenu();
+                showMaterialDialog("移出黑名单", "加入黑名单，你将不再收到对方的消息，并且你们互相看不到对方朋友圈的更新", "确定", "取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NimBlackListSDK.removeFromBlackList(mAccount, new RequestCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void param) {
+                                UIUtils.showToast("移出黑名单成功");
+                                Intent intent = new Intent(UserInfoActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onFailed(int code) {
+                                UIUtils.showToast("移出黑名单失败" + code);
                             }
 
                             @Override
@@ -391,9 +426,8 @@ public class UserInfoActivity extends BaseActivity {
         mTvAlias.setText(mContact.getDisplayName());
         mTvAccount.setText("Smlie ID:" + mContact.getAccount());
         mTvName.setText("昵称:" + mContact.getName());
-        Map<String, Object> extensionMap = mContact.getUserInfo().getExtensionMap();
-        if (extensionMap != null)
-            mTvArea.setText(StringUtils.isEmpty(extensionMap.get(AppConst.UserInfoExt.AREA)) ? "" : (String) extensionMap.get(AppConst.UserInfoExt.AREA));
+        mTvArea.setText(mContact.getUserInfo().getExtension());
+        mTvBirthday.setText(mContact.getUserInfo().getBirthday());
         mTvSignature.setText(mContact.getUserInfo().getSignature());
     }
 }

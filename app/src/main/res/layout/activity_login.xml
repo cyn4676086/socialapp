@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="国家/地区"
+                android:text="国家/学校"
                 android:textColor="@color/black0"/>
 
             <TextView

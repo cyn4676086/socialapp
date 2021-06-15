@@ -63,9 +63,10 @@ public class SettingActivity extends BaseActivity {
                     mExitDialogView.findViewById(R.id.tvExitAccount).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //退出当前账号
+                            //学校账号
                             NimAccountSDK.logout();
-                            intent = new Intent(SettingActivity.this, LoginActivity.class);
+                            NimAccountSDK.saveUserAccount("");
+                            intent = new Intent(SettingActivity.this, SplashActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();

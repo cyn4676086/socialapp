@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.smile.wechat.R;
+import com.smile.wechat.bmob.ActiveUsersSet;
+import com.smile.wechat.bmob.BmobManager;
 import com.smile.wechat.model.UserCache;
 import com.smile.wechat.nimsdk.NimAccountSDK;
 import com.smile.wechat.nimsdk.NimUserInfoSDK;
@@ -26,10 +28,15 @@ import com.netease.nimlib.sdk.auth.LoginInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 import me.drakeet.materialdialog.MaterialDialog;
 
 /**
@@ -201,6 +208,12 @@ public class LoginActivity extends BaseActivity {
 
                 //保存用户名到内存中
                 UserCache.setAccount(mUsername);
+                //保存用户名到活跃用户云端数据库中
+                BmobManager.getInstance().addActiveUsersSet(new SaveListener<String>() {
+                    @Override
+                    public void done(final String s, BmobException e) {
+                    }
+                });
                 //保存用户信息到本地，方便下次启动APP做自动登录用
                 NimAccountSDK.saveUserAccount(mUsername);
                 NimAccountSDK.saveUserToken(mToken);

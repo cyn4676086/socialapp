@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WheelView</string>
+    <string name="province_and_city">
+        "北京!!清华大学!北京大学!!!浙江!!浙江大学！杭州电子科技大学！浙江理工大学！！！
+    </string>
+    <string name="confirm">确定</string>
+</resources>

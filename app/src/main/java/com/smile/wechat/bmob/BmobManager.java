@@ -44,10 +44,40 @@ public class BmobManager {
         Bmob.initialize(mContext, AppConst.BMOB_SDK_ID);
     }
 
-
-
     public String getLocalUserId(){
         return UserCache.getAccount();
+    }
+
+
+    /**
+     * 查询活跃用户
+     *
+     */
+    public void queryActiveUsersSet(FindListener<ActiveUsersSet> listener){
+        BmobQuery<ActiveUsersSet> query=new BmobQuery<>();
+        query.findObjects(listener);
+    }
+    /**
+     * 添加到活跃用户池
+     *
+     * @param listener
+     */
+    public void addActiveUsersSet(SaveListener<String> listener) {
+        ActiveUsersSet set = new ActiveUsersSet();
+        set.setUserId(getLocalUserId());
+        set.save(listener);
+    }
+
+    /**
+     * 删除活跃用户池
+     *
+     * @param id
+     * @param listener
+     */
+    public void delActiveUsersSet(String id, UpdateListener listener) {
+        ActiveUsersSet set = new ActiveUsersSet();
+        set.setObjectId(id);
+        set.delete(listener);
     }
 
     /**
@@ -59,7 +89,6 @@ public class BmobManager {
         BmobQuery<FateSet> query = new BmobQuery<>();
         query.findObjects(listener);
     }
-
 
     /**
      * 添加到缘分池中

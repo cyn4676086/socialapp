@@ -80,6 +80,7 @@
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" />
+      
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
             android:authorities="com.smile.wechat.BmobContentProvider">

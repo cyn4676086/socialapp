@@ -40,7 +40,7 @@ public class DiscoveryFragment extends BaseFragment {
             case R.id.oivGame:
                 mIntent = new Intent(getActivity(), WebViewActivity.class);
                 mIntent.putExtra("url", AppConst.Url.GAME);
-                mIntent.putExtra("title", "微信游戏");
+                mIntent.putExtra("title", "游戏");
                 startActivity(mIntent);
                 break;
         }

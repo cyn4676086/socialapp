@@ -118,8 +118,9 @@ public class MeFragment extends BaseFragment {
             //用户名、账号
             if (mTvName != null)
                 mTvName.setText(mNimUserInfo.getName());
+
             if (mTvAccount != null)
-                mTvAccount.setText(mNimUserInfo.getAccount());
+                mTvAccount.setText("Smlie ID:"+mNimUserInfo.getAccount());
         }
     }
 

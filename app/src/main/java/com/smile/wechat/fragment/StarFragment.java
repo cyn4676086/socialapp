@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.moxun.tagcloudlib.view.TagCloudView;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.smile.wechat.AppConst;
@@ -19,15 +20,22 @@ import com.smile.wechat.R;
 import com.smile.wechat.activity.SearchUserActivity;
 import com.smile.wechat.activity.UserInfoActivity;
 import com.smile.wechat.adapter.CloudTagAdapter;
+import com.smile.wechat.bmob.ActiveUsersSet;
+import com.smile.wechat.bmob.BmobManager;
+import com.smile.wechat.bmob.FateSet;
 import com.smile.wechat.helper.PairFriendHelper;
 import com.smile.wechat.model.StarModel;
 import com.smile.wechat.model.UserCache;
 import com.smile.wechat.nimsdk.NimUserInfoSDK;
 import com.smile.wechat.nimsdk.utils.ToastUtils;
 import com.smile.wechat.utils.CommonUtils;
+import com.smile.wechat.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 public class StarFragment extends BaseFragment implements View.OnClickListener {
 
@@ -83,7 +91,6 @@ public class StarFragment extends BaseFragment implements View.OnClickListener {
         mCloudView.setOnTagClickListener(new TagCloudView.OnTagClickListener() {
             @Override
             public void onItemClick(ViewGroup parent, View view, int position) {
-                System.out.println(mStarList.get(position).getUserId());
                 startUserInfo(mStarList.get(position).getUserId());
             }
         });
@@ -133,31 +140,65 @@ public class StarFragment extends BaseFragment implements View.OnClickListener {
         /**
          * 从用户库中抓取一定的用户,云信其用户系统只能从云端获取指定用户的资料
          * 无法随机获取一些用户的资料，此功能只作为示例
-         * 后续使用云数据库自行创建用户系统使用
+         * 当前使用云数据库创建活跃用户池实现
          */
-        List<NimUserInfo> users = NIMClient.getService(UserService.class).getAllUserInfo();
 
-        if(CommonUtils.isEmpty(users)){
-            mAllUserList=users;
-            if(mStarList.size()>0){
-                mStarList.clear();
-            }
+        List<String>userAccounts=new ArrayList<>();
 
-            //适用于小批量抓取用户，当数据量庞大时需使用云技术
-            int index=100;
-            if(users.size()<=100) {
-                index = users.size();
-                //只获取100个好友
-            }
-            //直接填充
-            for (int i = 0; i < index; i++) {
-                NimUserInfo user = NIMClient.getService(UserService.class).
-                          getUserInfo(users.get(i).getAccount().toString());
-
-                saveStarUser(user.getAccount(),user.getName(),user.getAvatar());
+        BmobManager.getInstance().queryActiveUsersSet(new FindListener<ActiveUsersSet>() {
+            @Override
+            public void done(List<ActiveUsersSet> list, BmobException e) {
+                for (int i = 0; i < list.size(); i++) {
+                    //去掉自己
+                    ActiveUsersSet activeUsersSet = list.get(i);
+                    if (activeUsersSet.getUserId().equals(UserCache.getAccount())) {
+                        list.remove(i);
+                    }else {
+                        userAccounts.add(activeUsersSet.getUserId());
+                    }
                 }
-            mCloudTagAdapter.notifyDataSetChanged();
-        }
+                NimUserInfoSDK.getUserInfosFormServer(userAccounts, new RequestCallback<List<NimUserInfo>>() {
+                    @Override
+                    public void onSuccess(List<NimUserInfo> users) {
+
+                        if(CommonUtils.isEmpty(users)){
+                            mAllUserList=users;
+                            if(mStarList.size()>0){
+                                mStarList.clear();
+                            }
+
+                            //适用于小批量抓取用户，当数据量庞大时需使用云技术
+                            int index=100;
+                            if(users.size()<=100) {
+                                index = users.size();
+                                //只获取100个好友
+                            }
+
+                            //直接填充
+                            for (int i = 0; i < index; i++) {
+                                NimUserInfo user = users.get(i);
+                                saveStarUser(user.getAccount(),user.getName(),user.getAvatar());
+                            }
+                            mCloudTagAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+                        UIUtils.showToast("获取用户池信息失败" + code);
+                    }
+
+                    @Override
+                    public void onException(Throwable exception) {
+                        exception.printStackTrace();
+                    }
+                });
+
+            }
+        });
+
+
+
     }
 
     @Override

@@ -1039,13 +1039,11 @@ public class SessionActivity extends BaseActivity implements IEmoticonSelectedLi
      */
     private void onStartAudioRecord() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        mAudioRecorderHelper.startRecord();
+
+
         mStartRecord = mAudioRecorderHelper.isRecording();
         mCanclled = false;
-        if (mStartRecord == false) {
-            UIUtils.showToast("初始化录音失败");
-            return;
-        }
-
         if (!mTouched) {
             return;
         }

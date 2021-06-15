@@ -157,6 +157,7 @@ public class PairFriendHelper {
         });
     }
 
+
     /**
      * 删除指定的缘分池
      *
@@ -316,30 +317,35 @@ public class PairFriendHelper {
     }
     //由出生日期获得年龄
     public static  int getAge(Date birthDay) throws Exception {
-        Calendar cal = Calendar.getInstance();
-        if (cal.before(birthDay)) {
-            throw new IllegalArgumentException(
-                      "The birthDay is before Now.It's unbelievable!");
-        }
-        int yearNow = cal.get(Calendar.YEAR);
-        int monthNow = cal.get(Calendar.MONTH);
-        int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
-        cal.setTime(birthDay);
-
-        int yearBirth = cal.get(Calendar.YEAR);
-        int monthBirth = cal.get(Calendar.MONTH);
-        int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
-
-        int age = yearNow - yearBirth;
-
-        if (monthNow <= monthBirth) {
-            if (monthNow == monthBirth) {
-                if (dayOfMonthNow < dayOfMonthBirth) age--;
-            }else{
-                age--;
+        if(birthDay==null){
+            return 100;
+        }else {
+            Calendar cal = Calendar.getInstance();
+            if (cal.before(birthDay)) {
+                throw new IllegalArgumentException(
+                          "The birthDay is before Now.It's unbelievable!");
             }
+            int yearNow = cal.get(Calendar.YEAR);
+            int monthNow = cal.get(Calendar.MONTH);
+            int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
+            cal.setTime(birthDay);
+
+            int yearBirth = cal.get(Calendar.YEAR);
+            int monthBirth = cal.get(Calendar.MONTH);
+            int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
+
+            int age = yearNow - yearBirth;
+
+            if (monthNow <= monthBirth) {
+                if (monthNow == monthBirth) {
+                    if (dayOfMonthNow < dayOfMonthBirth) age--;
+                }else{
+                    age--;
+                }
+            }
+            return age;
         }
-        return age;
+
     }
 
     /**
@@ -348,17 +354,21 @@ public class PairFriendHelper {
      * @return 返回相应的星座
      */
     public static String getCons(String date){
-        String cons[] = {"白羊座","金牛座","双子座","巨蟹座","狮子座","处女座","天秤座","天蝎座","射手座","摩羯座","水瓶座","双鱼座"};
-        int edgeDate[] = {21,20,21,22,23,23,23,24,23,22,20,19};//星座起始日期 3月份开始
+        if (date!=null){
+            String cons[] = {"白羊座","金牛座","双子座","巨蟹座","狮子座","处女座","天秤座","天蝎座","射手座","摩羯座","水瓶座","双鱼座"};
+            int edgeDate[] = {21,20,21,22,23,23,23,24,23,22,20,19};//星座起始日期 3月份开始
 
-        String dates[] = date.split("-");
-        if(dates.length<3) return null;//格式不正确
-        int month = Integer.parseInt(dates[1]);
-        int day = Integer.parseInt(dates[2]);
+            String dates[] = date.split("-");
+            if(dates.length<3) return null;//格式不正确
+            int month = Integer.parseInt(dates[1]);
+            int day = Integer.parseInt(dates[2]);
 
-        int index = (month+9)%12;
-        index = edgeDate[index]>day?(month+8)%12:index;//得到星座
-        return cons[index];
+            int index = (month+9)%12;
+            index = edgeDate[index]>day?(month+8)%12:index;//得到星座
+            return cons[index];
+        }else {
+            return null;
+        }
     }
 
     /**

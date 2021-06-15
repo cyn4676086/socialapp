@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmileChat</string>
+    <string name="app">SmileChat</string>
 
     <string name="message">消息</string>
     <string name="contacts">通讯录</string>
